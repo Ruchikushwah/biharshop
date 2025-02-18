@@ -28,6 +28,7 @@ class AuthController extends Controller
 
         if($req->isMethod("post")){
             $req->validate([
+                
                 'name' => 'required|max:255',
                 'email'=> 'required|email|unique:users',
                 'password'=> 'required|min:8',
@@ -49,5 +50,5 @@ class AuthController extends Controller
         FacadesAuth::logout();
         return redirect()->route('login')->with('success','logout successfully');
     }
-  
+    
 }

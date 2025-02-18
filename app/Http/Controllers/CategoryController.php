@@ -36,10 +36,7 @@ class CategoryController extends Controller
 
         'cat_title' => 'required|max:255',
         'cat_description'=> 'required|max:255',
-        
-
-
-
+    
     ]);
     $cat = new Category();
     $cat->cat_title = $request->cat_title;
@@ -48,9 +45,6 @@ class CategoryController extends Controller
     $cat->parent_id = $request->parent_id;
     $cat->save();
 
-
-
-    
     return redirect()->route('category.index')->with('success', ' category created successfully');
     }
 

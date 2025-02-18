@@ -15,8 +15,8 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        
-        return view('admin.manageProduct')->with('products',$products);
+
+        return view('admin.manageProduct')->with('products', $products);
     }
 
     /**
@@ -24,8 +24,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::where('parent_id',null)->get();
-        return view('admin.insertProduct')->with('categories',$categories);
+        $categories = Category::where('parent_id', null)->get();
+        return view('admin.insertProduct')->with('categories', $categories);
     }
 
     /**
@@ -33,32 +33,31 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $data=$request->validate([
-            'name'=>'required|max:225',
-            'description'=>'required',
-            'price'=>'required|numeric',
-            'discount_price'=>'required|numeric',
-            'quantity'=>'required|numeric',
-            'category_id'=>'required',
-            'featured_image'=>'required|image|mimes:jpeg,png,gif,svg|max:2048',
-            'discount'=>'nullable|numeric',
-            'sku'=>'required',
-            'brand'=>'required',
+        $data = $request->validate([
+            'name' => 'required|max:225',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'discount_price' => 'required|numeric',
+            'quantity' => 'required|numeric',
+            'category_id' => 'required',
+            'featured_image' => 'required|image|mimes:jpeg,png,gif,svg|max:2048',
+            'discount' => 'nullable|numeric',
+            'sku' => 'required',
+            'brand' => 'required',
 
         ]);
 
-$image =$request->file('featured_image');
-$imageName=time().'.'.$image->getClientOriginalExtension();
-$image->move(public_path('image'),$imageName);
+        $image = $request->file('featured_image');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('image'), $imageName);
 
-$data['slug']=str::slug($data['name']);
-$data['featured_image'] =$imageName;
+        $data['slug'] = str::slug($data['name']);
+        $data['featured_image'] = $imageName;
 
         Product::create($data);
-        return redirect()->route('products.index')->with('success',"product created successfully");
-
+        return redirect()->route('products.index')->with('success', "product created successfully");
     }
-
+    
     /**
      * Display the specified resource.
      */
